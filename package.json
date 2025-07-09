@@ -13,9 +13,14 @@
   "packageManager": "pnpm@10.12.4",
   "devDependencies": {
     "@types/pg": "^8.15.4",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
     "drizzle-kit": "^0.31.4",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "tsimp": "^2.0.12",
-    "typescript": "5.9.0-beta"
+    "typescript": "5.9.0-beta",
+    "vite": "^7.0.3"
   },
   "dependencies": {
     "@hono/node-server": "^1.15.0",
