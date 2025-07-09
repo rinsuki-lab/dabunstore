@@ -4,10 +4,28 @@ import { zValidator } from '@hono/zod-validator';
 import { postsTable } from '../../../db/schema.js';
 import { db } from '../../../db/index.js';
 import { ulid, ulidToUUID } from 'ulid';
+import { desc } from 'drizzle-orm';
 
-const posts = new Hono();
+type PostFromDB = typeof postsTable.$inferSelect;
 
-export default posts.post(
+function formatPostForAPI(post: PostFromDB) {
+  return {
+    id: post.uuid,
+    content: post.content,
+  };
+}
+
+export default new Hono().get('/', async (c) => {
+  const allPosts = await db.select()
+    .from(postsTable)
+    .orderBy(desc(postsTable.internalId));
+  
+  const formattedPosts = allPosts.map(formatPostForAPI);
+  
+  return c.json({
+    data: formattedPosts
+  });
+}).post(
   '/',
   zValidator('json', z.object({
     content: z.string().min(1, 'Content is required')
@@ -19,10 +37,16 @@ export default posts.post(
       internalId: ulidToUUID(ulid()),
       content: data.content
     }).returning();
+
+    if (newPost == null) {
+      return c.json({
+        message: 'Failed to create post'
+      }, 500);
+    }
     
     return c.json({
       message: 'Post created successfully',
-      data: newPost
+      data: formatPostForAPI(newPost)
     }, 201);
   }
 );
