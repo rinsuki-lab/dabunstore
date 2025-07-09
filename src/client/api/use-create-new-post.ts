@@ -3,7 +3,9 @@ import { client } from "./client.js";
 
 export const useCreateNewPost = () => useMutation({
     mutationFn: async (data: { content: string }) => {
-        const response = await client.v1.posts.$post(data);
+        const response = await client.v1.posts.$post({
+            json: data,
+        });
         if (!response.ok) {
             throw new Error("Failed to create new post");
         }
