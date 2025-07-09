@@ -1,15 +1,11 @@
 import { Hono } from 'hono';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { postsTable } from '../../../db/schema.js';
+import { db } from '../../../db/index.js';
 
-const posts = new Hono<{
-  Variables: {
-    db: ReturnType<typeof drizzle>
-  }
-}>();
+const posts = new Hono();
 
 posts.post('/', async (c) => {
-  const db = c.get('db');
   const body = await c.req.json();
   
   if (!body.content) {
