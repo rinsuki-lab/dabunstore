@@ -5,7 +5,7 @@ import { db } from '../../../db/index.js';
 
 const posts = new Hono();
 
-posts.post('/', async (c) => {
+export default posts.post('/', async (c) => {
   const body = await c.req.json();
   
   if (!body.content) {
@@ -21,5 +21,3 @@ posts.post('/', async (c) => {
     data: newPost
   }, 201);
 });
-
-export default posts;
