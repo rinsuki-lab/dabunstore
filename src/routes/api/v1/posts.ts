@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
 import { postsTable } from '../../../db/schema.js';
 import { db } from '../../../db/index.js';
+import { ulid, ulidToUUID } from 'ulid';
 
 const posts = new Hono();
 
@@ -15,6 +16,7 @@ export default posts.post(
     const data = c.req.valid('json');
     
     const [newPost] = await db.insert(postsTable).values({
+      internalId: ulidToUUID(ulid()),
       content: data.content
     }).returning();
     
