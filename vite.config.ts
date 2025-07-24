@@ -1,4 +1,8 @@
 const config: import("vite").UserConfig = {
+    build: {
+        outDir: "dist/frontend",
+        emptyOutDir: true,
+    },
     server: {
         proxy: {
             "/api": {
