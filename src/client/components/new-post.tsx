@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useCreateNewPost } from "../api/use-create-new-post.js";
 
 export const NewPost: React.FC = () => {
   const [text, setText] = useState("");
   const createNewPost = useCreateNewPost();
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (createNewPost.isSuccess) {
@@ -11,6 +12,18 @@ export const NewPost: React.FC = () => {
       createNewPost.reset();
     }
   }, [createNewPost.isSuccess]);
+
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === 'n' && e.target === document.body) {
+        e.preventDefault();
+        textareaRef.current?.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+    return () => document.removeEventListener('keydown', handleKeyPress);
+  }, []);
 
   return (
     <form
@@ -23,6 +36,7 @@ export const NewPost: React.FC = () => {
     >
       {/* TODO: show error */}
       <textarea
+        ref={textareaRef}
         placeholder="Tell your world"
         value={text}
         onInput={(e) => setText(e.currentTarget.value)}
