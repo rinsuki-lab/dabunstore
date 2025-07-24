@@ -19,7 +19,7 @@ export function Timeline() {
     <div>
       {data.data.map((post) => (
         <div key={post.id}>
-          <p>{post.content}</p>
+          <p style={{ whiteSpace: 'pre-wrap' }}>{post.content}</p>
         </div>
       ))}
     </div>
