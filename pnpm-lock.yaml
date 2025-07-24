@@ -17,6 +17,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.82.0
         version: 5.82.0(react@19.1.0)
+      drizzle-kit:
+        specifier: ^0.31.4
+        version: 0.31.4
       drizzle-orm:
         specifier: ^0.44.2
         version: 0.44.2(@types/pg@8.15.4)(pg@8.16.3)
@@ -42,9 +45,6 @@ importers:
       '@types/react-dom':
         specifier: ^19.1.6
         version: 19.1.6(@types/react@19.1.8)
-      drizzle-kit:
-        specifier: ^0.31.4
-        version: 0.31.4
       react:
         specifier: ^19.1.0
         version: 19.1.0
