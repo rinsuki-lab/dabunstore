@@ -41,7 +41,7 @@ export const NewPost: React.FC = () => {
         value={text}
         onInput={(e) => setText(e.currentTarget.value)}
         onKeyDown={(e) => {
-          if (e.key === "Enter" && !e.shiftKey) {
+          if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
             e.preventDefault();
             // Submit the form
             e.currentTarget.form?.requestSubmit();
