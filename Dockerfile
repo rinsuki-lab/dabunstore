@@ -19,6 +19,7 @@ RUN pnpm run build:frontend
 
 FROM deps AS runner
 
+COPY ./drizzle.config.ts ./
 COPY --from=build-backend /app/dist ./dist
 COPY --from=build-frontend /app/dist/frontend ./dist/frontend
 
