@@ -1,7 +1,7 @@
 FROM node:24-alpine AS deps
 ENV NODE_ENV=production
 WORKDIR /app
-RUN corepack enable
+RUN corepack enable && apk --no-cache add tini
 
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile --prod
@@ -23,4 +23,5 @@ COPY --from=build-backend /app/dist ./dist
 COPY --from=build-frontend /app/dist/frontend ./dist/frontend
 
 EXPOSE 3000
+ENTRYPOINT ["tini", "--"]
 CMD ["node", "dist/index.js"]
