@@ -5,12 +5,13 @@ import remarkGfm from "remark-gfm"
 import remarkBreaks from "remark-breaks"
 import { findAndReplace } from "mdast-util-find-and-replace"
 import rehypeRaw from "rehype-raw"
+import type { Nodes } from "mdast"
 
 const processor = unified()
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkBreaks)
-    .use(() => tree => findAndReplace(tree, [
+    .use(() => (tree: Nodes) => findAndReplace(tree, [
         [
             /(?<=(?:^|[\n\s]))@([a-zA-Z0-9\.]+)/g,
             (text, name) => {
