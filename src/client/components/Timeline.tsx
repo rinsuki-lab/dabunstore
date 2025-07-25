@@ -1,9 +1,22 @@
 import { parseText } from '../../shared/parse-text.js';
 import { usePostsQuery } from '../api/use-posts.js';
 import { TreeRenderer } from './tree-renderer.js';
+import { useEffect, useRef } from 'react';
 
 export function Timeline() {
   const { data, isLoading, error } = usePostsQuery();
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const prevPostCountRef = useRef(0);
+
+  useEffect(() => {
+    if (data?.data && data.data.length > prevPostCountRef.current) {
+      // 新しい投稿が追加されたら最下部にスクロール
+      if (timelineRef.current) {
+        timelineRef.current.scrollTop = timelineRef.current.scrollHeight;
+      }
+      prevPostCountRef.current = data.data.length;
+    }
+  }, [data]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -18,8 +31,8 @@ export function Timeline() {
   }
 
   return (
-    <div>
-      {data.data.map((post) => (
+    <div ref={timelineRef} style={{ overflowY: 'auto', maxHeight: '80vh' }}>
+      {data.data.slice().reverse().map((post) => (
         <div key={post.id}>
           <TreeRenderer tree={parseText(post.content)} />
         </div>
