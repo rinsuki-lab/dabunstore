@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useCreateNewPost } from "../api/use-create-new-post.js";
+import { parseText } from "../../shared/parse-text.js"
+import { TreeRenderer } from "./tree-renderer.js";
 
 export const NewPost: React.FC = () => {
   const [text, setText] = useState("");
@@ -49,6 +51,8 @@ export const NewPost: React.FC = () => {
         }}
       />
       <input type="submit" disabled={createNewPost.isPending} />
+      <TreeRenderer tree={parseText(text)} />
+      <code style={{display: "block"}}>{JSON.stringify(parseText(text))}</code>
     </form>
   );
 };

@@ -1,4 +1,6 @@
+import { parseText } from '../../shared/parse-text.js';
 import { usePostsQuery } from '../api/use-posts.js';
+import { TreeRenderer } from './tree-renderer.js';
 
 export function Timeline() {
   const { data, isLoading, error } = usePostsQuery();
@@ -19,7 +21,7 @@ export function Timeline() {
     <div>
       {data.data.map((post) => (
         <div key={post.id}>
-          <p style={{ whiteSpace: 'pre-wrap' }}>{post.content}</p>
+          <TreeRenderer tree={parseText(post.content)} />
         </div>
       ))}
     </div>
