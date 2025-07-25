@@ -3,6 +3,8 @@ import { usePostsQuery } from '../api/use-posts.js';
 import { TreeRenderer } from './tree-renderer.js';
 import { useEffect, useRef } from 'react';
 
+import "./timeline.css"
+
 export function Timeline() {
   const { data, isLoading, error } = usePostsQuery();
   const timelineRef = useRef<HTMLDivElement>(null);
@@ -31,7 +33,7 @@ export function Timeline() {
   }
 
   return (
-    <div ref={timelineRef} style={{ overflowY: 'auto', maxHeight: '80vh' }}>
+    <div ref={timelineRef} className="timeline">
       {data.data.slice().reverse().map((post) => (
         <div key={post.id}>
           <TreeRenderer tree={parseText(post.content)} />
