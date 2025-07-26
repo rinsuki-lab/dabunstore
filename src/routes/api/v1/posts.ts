@@ -20,8 +20,8 @@ function formatPostForAPI(post: PostFromDB) {
 
 export default new Hono().get('/', zValidator("query", z.object({
   tag: z.string().optional(),
-})), async (c) => {
-  const { tag } = c.req.valid("query");
+}).optional()), async (c) => {
+  const { tag } = c.req.valid("query") ?? {};
   
   if (tag != null) {
     const postsWithTag = await db.select({
