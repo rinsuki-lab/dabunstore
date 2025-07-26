@@ -1,0 +1,3 @@
+.new-post > textarea {
+    font-size: max(1em, 16px);
+}

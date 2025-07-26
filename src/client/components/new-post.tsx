@@ -3,6 +3,8 @@ import { useCreateNewPost } from "../api/use-create-new-post.js";
 import { parseText } from "../../shared/parse-text.js"
 import { TreeRenderer } from "./tree-renderer.js";
 
+import "./new-post.css"
+
 export const NewPost: React.FC = () => {
   const [text, setText] = useState("");
   const createNewPost = useCreateNewPost();
@@ -29,6 +31,7 @@ export const NewPost: React.FC = () => {
 
   return (
     <form
+      className="new-post"
       onSubmit={(e) => {
         e.preventDefault();
         if (createNewPost.isPending) return;
