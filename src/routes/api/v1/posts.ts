@@ -4,9 +4,10 @@ import { zValidator } from '@hono/zod-validator';
 import { postsTable, tagsTable, postTagsTable } from '../../../db/schema.js';
 import { db } from '../../../db/index.js';
 import { ulid, ulidToUUID } from 'ulid';
-import { desc, inArray } from 'drizzle-orm';
+import { desc, inArray, eq } from 'drizzle-orm';
 import { parseText } from '../../../shared/parse-text.js';
 import { extractTags } from '../../../shared/extract-tags.js';
+import { normalizeTag } from '../../../shared/normalize-tag.js';
 
 type PostFromDB = typeof postsTable.$inferSelect;
 
@@ -17,7 +18,26 @@ function formatPostForAPI(post: PostFromDB) {
   };
 }
 
-export default new Hono().get('/', async (c) => {
+export default new Hono().get('/', zValidator("query", z.object({
+  tag: z.string().optional(),
+})), async (c) => {
+  const { tag } = c.req.valid("query");
+  
+  if (tag != null) {
+    const postsWithTag = await db.select({
+      post: postsTable
+    })
+      .from(postsTable)
+      .innerJoin(postTagsTable, eq(postTagsTable.postInternalId, postsTable.internalId))
+      .innerJoin(tagsTable, eq(tagsTable.id, postTagsTable.tagId))
+      .where(eq(tagsTable.normalizedTitle, normalizeTag(tag)))
+      .orderBy(desc(postsTable.internalId));
+    
+    return c.json({
+      data: postsWithTag.map(i => formatPostForAPI(i.post))
+    });
+  }
+  
   const allPosts = await db.select()
     .from(postsTable)
     .orderBy(desc(postsTable.internalId));
