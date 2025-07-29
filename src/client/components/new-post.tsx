@@ -63,7 +63,7 @@ export const NewPost: React.FC = () => {
       {/* TODO: show error */}
       <textarea
         ref={textareaRef}
-        placeholder="Tell your world"
+        placeholder="Tell Your World"
         value={text}
         onInput={(e) => setText(e.currentTarget.value)}
         onKeyDown={(e) => {
