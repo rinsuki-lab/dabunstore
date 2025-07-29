@@ -1,6 +1,7 @@
 #app {
     display: flex;
     flex-direction: column;
+    font-family: system-ui, sans-serif;
     height: calc(100vh - 16px);
     box-sizing: border-box;
     padding-top: env(safe-area-inset-top);
