@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
 import { postsTable, tagsTable, postTagsTable } from '../../../db/schema.js';
 import { db } from '../../../db/index.js';
-import { ulid, ulidToUUID } from 'ulid';
+import { ulid, ulidToUUID, decodeTime, uuidToULID } from 'ulid';
 import { desc, inArray, eq } from 'drizzle-orm';
 import { parseText } from '../../../shared/parse-text.js';
 import { extractTags } from '../../../shared/extract-tags.js';
@@ -15,6 +15,7 @@ function formatPostForAPI(post: PostFromDB) {
   return {
     id: post.uuid,
     content: post.content,
+    createdAt: new Date(decodeTime(uuidToULID(post.internalId))).toISOString(),
   };
 }
 

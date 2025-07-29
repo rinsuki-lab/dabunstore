@@ -5,6 +5,17 @@ import { useEffect, useRef } from 'react';
 
 import "./timeline.css"
 
+function PostTime({dateTime}: {dateTime: string}) {
+  const date = new Date(dateTime)
+  const current = new Date()
+  const isSameDate = date.getFullYear() === current.getFullYear() && date.getMonth() === current.getMonth() && date.getDate() === current.getDate();
+  const ymd = isSameDate ? '' : `${date.getFullYear() === current.getFullYear() ? "" : date.getFullYear() + "/"}${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}`;
+  const hms = `${date.getHours().toString().padStart(ymd.length ? 2 : 0, "0")}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`
+  return <time dateTime={dateTime} className='post-time'>
+    {ymd} {hms}
+  </time>
+}
+
 export function Timeline() {
   const { data, isLoading, error } = usePostsQuery();
   const timelineRef = useRef<HTMLDivElement>(null);
@@ -36,6 +47,7 @@ export function Timeline() {
     <div ref={timelineRef} className="timeline">
       {data.data.slice().reverse().map((post) => (
         <div key={post.id}>
+          <PostTime dateTime={post.createdAt} />
           <TreeRenderer tree={parseText(post.content)} />
         </div>
       ))}
