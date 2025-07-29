@@ -1,6 +1,7 @@
 .timeline {
     overflow-y: auto;
     & .post-time {
+        font-variant-numeric: tabular-nums;
         opacity: 0.5;
         padding-right: 0.5em;
         float: left;
