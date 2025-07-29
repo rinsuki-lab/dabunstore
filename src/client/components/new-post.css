@@ -2,7 +2,8 @@
     display: flex;
     & > textarea {
         flex: 1;
-        resize: vertical;
+        resize: none;
         font-size: max(1em, 16px);
+        min-height: 2.5em;
     }
 }
