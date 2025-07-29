@@ -30,6 +30,8 @@ export const TreeRenderer: React.FC<{tree: Root | RootContent}> = (props) => {
             return <ul>{child}</ul>
         case "li":
             return <li>{child}</li>
+        case "code":
+            return <code>{child}</code>
         case "br":
             return <br />
         default:
