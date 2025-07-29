@@ -54,8 +54,6 @@ export const NewPost: React.FC = () => {
         }}
       />
       <input type="submit" disabled={createNewPost.isPending} />
-      <TreeRenderer tree={parseText(text)} />
-      <code style={{display: "block"}}>{JSON.stringify(parseText(text))}</code>
     </form>
   );
 };
