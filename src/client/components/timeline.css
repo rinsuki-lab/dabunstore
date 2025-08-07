@@ -1,5 +1,9 @@
 .timeline {
     overflow-y: auto;
+    width: 100%;
+    & pre {
+        white-space: pre-wrap;
+    }
     & .post-time {
         font-variant-numeric: tabular-nums;
         opacity: 0.5;
